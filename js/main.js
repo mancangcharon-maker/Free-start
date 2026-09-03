@@ -63,7 +63,8 @@
 
 })();
 
-// ===== Contact form demo handler =====
+// ===== Contact form handler =====
+// Posts the inquiry to a Cloudflare Worker which emails it via Resend.
 // Defined globally so inline onsubmit can reach it.
 function handleSubmit(e) {
   e.preventDefault();
@@ -71,19 +72,58 @@ function handleSubmit(e) {
   var btn = form.querySelector('.form-submit');
   if (!btn) return false;
   var original = btn.textContent;
+
+  var fields = ['name', 'company', 'email', 'country', 'product', 'quantity', 'message', 'website'];
+  var payload = {};
+  fields.forEach(function(f) {
+    var el = form.elements[f];
+    payload[f] = el ? String(el.value || '').trim() : '';
+  });
+
+  // Client-side required check (server validates again)
+  if (!payload.name || !payload.email || !payload.message) {
+    btn.textContent = 'Please fill in Name, Email and Message.';
+    setTimeout(function() { btn.textContent = original; }, 2500);
+    return false;
+  }
+
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(function() {
-    btn.textContent = "Inquiry Sent! We'll reply within 24h.";
-    btn.style.background = '#2E7D32';
-    btn.style.borderColor = '#2E7D32';
-    form.reset();
-    setTimeout(function() {
-      btn.textContent = original;
-      btn.style.background = '';
-      btn.style.borderColor = '';
-      btn.disabled = false;
-    }, 4000);
-  }, 1200);
+
+  fetch('https://safelift-form.mancangcharon.workers.dev', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+    .then(function(res) { return res.json().then(function(d) { return { ok: res.ok, data: d }; }); })
+    .then(function(r) {
+      if (r.ok && r.data.code === 200) {
+        btn.textContent = "Inquiry Sent! We'll reply within 24h.";
+        btn.style.background = '#2E7D32';
+        btn.style.borderColor = '#2E7D32';
+        form.reset();
+      } else {
+        btn.textContent = r.data.message || 'Failed to send. Please email us directly.';
+        btn.style.background = '#C62828';
+        btn.style.borderColor = '#C62828';
+      }
+      setTimeout(function() {
+        btn.textContent = original;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.disabled = false;
+      }, 4000);
+    })
+    .catch(function() {
+      btn.textContent = 'Network error. Please email sales@safelift.de5.net';
+      btn.style.background = '#C62828';
+      btn.style.borderColor = '#C62828';
+      setTimeout(function() {
+        btn.textContent = original;
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.disabled = false;
+      }, 4000);
+    });
   return false;
 }
