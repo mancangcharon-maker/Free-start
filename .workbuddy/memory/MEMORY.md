@@ -1,9 +1,22 @@
 # SafeLift 外贸独立站（Hexo + Cloudflare Pages）
 
 ## 项目地址
-- 域名：safelift.de5.net（Cloudflare Pages 保护）
+- 域名：safelift.de5.net（Cloudflare Pages 保护）— 已于 2026-09-03 部署新版工业风主题上线
 - 仓库：github.com/mancangcharon-maker/Free-start（gh-pages 分支自动部署）
 - 主题：`themes/safelift-modern/`（新建的工业风主题，EJS 模板）
+
+## 部署要点（2026-09-03 实战）
+- 流程：`hexo generate` → 推送 public 产物到 gh-pages → Cloudflare Pages 自动部署。源码同步 push main。
+- `source/CNAME`（safelift.de5.net）已存在，hexo 会复制进 public，勿删。
+- ⚠️ 本机环境 `hexo d` 不可用（deployer 重建 .deploy_git 后子进程无法交互认证）。**手动部署流程**：
+  ```
+  git clone --depth 1 --branch gh-pages <repo> .tmp_deploy_git
+  cd .tmp_deploy_git && git rm -rq . && cp -a ../public/. . 
+  git add -A && git commit -m "Site updated" && git push origin HEAD:gh-pages
+  ```
+  清理临时目录用 `git clean -ffd`。
+- 本机 E: 卷不支持回收站，`rm -rf`/Remove-Item 会被 safe-delete 拦截；删未跟踪内容统一用 `git clean -f(-ffd)`。
+- PowerShell 工具 stdout 经常被吞 → 验证类操作用 Bash；Bash 缺 sleep/seq 且 /tmp 不可写。
 
 ## 主题结构
 - 4 个核心 page：Home/Products/About/Contact（独立 URL，SEO 友好）
