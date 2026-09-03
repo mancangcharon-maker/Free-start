@@ -1,0 +1,39 @@
+# ============================================
+# SafeLift Modern Theme
+# Industrial-style marketing site for aerial
+# work platform manufacturer & exporter
+# ============================================
+
+# Brand
+brand:
+  name: SafeLift
+  short_name: SL
+  tagline: Reliable Aerial Work Platforms
+  domain: safelift.de5.net
+
+# Contact Information
+contact:
+  phone: "+86 138 0000 0000"
+  whatsapp: "8613800000000"
+  email: "sales@safelift.com"
+  address: "Jiyang District, Jinan City, Shandong Province, China"
+  hours: "Mon - Sat: 8:30 - 18:00 (GMT+8)"
+  trade_terms: "EXW / FOB Qingdao / CIF / DDP"
+
+# Social links
+social:
+  whatsapp: "#"
+  facebook: "#"
+  linkedin: "#"
+  youtube: "#"
+
+# Navigation
+menu:
+  Home: /
+  Products: /products/
+  "About Us": /about/
+  Contact: /contact/
+
+# CDN — set true if you want to load font/css from a CDN; here we use Google Fonts directly in layout
+cdn:
+  enable: false

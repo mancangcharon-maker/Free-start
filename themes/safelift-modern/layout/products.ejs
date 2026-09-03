@@ -1,0 +1,107 @@
+<main class="page-products">
+  <section class="products-hero">
+    <div class="products-hero-inner">
+      <div class="section-eyebrow" style="color:var(--orange);">Product Catalog</div>
+      <h1>Aerial Work &amp; Material Handling Equipment</h1>
+      <p>Explore our full range of CE-certified lifting equipment. Click any model for detailed specifications and quotation.</p>
+    </div>
+  </section>
+
+  <section class="product-list">
+    <div class="product-list-inner">
+      <%
+        const products = site.posts.filter(p => p.layout === 'product' || (p.tags && p.tags.data && p.tags.data.some(t => t.name === 'product')));
+        const fallbackProducts = [
+          {
+            slug: 'scissor-lift-10m',
+            category: 'Scissor Lift / Self-Propelled Electric',
+            title: '10m Electric Scissor Lift',
+            image: 'https://aka.doubaocdn.com/s/wqC82QAoZz',
+            desc: 'Self-propelled electric scissor lift with extension platform, ideal for indoor maintenance, installation and finishing work. Zero emissions, quiet operation, CE certified.',
+            specs: [
+              ['Platform Height', '10 m'],
+              ['Working Height', '12 m'],
+              ['Load Capacity', '320 kg'],
+              ['Platform Size', '2.27 x 1.12 m'],
+              ['Battery', '4x6V 225Ah'],
+              ['Weight', '2,506 kg']
+            ]
+          },
+          {
+            slug: 'boom-lift-16m',
+            category: 'Boom Lift / Articulated Diesel',
+            title: '16m Articulated Boom Lift',
+            image: 'https://aka.doubaocdn.com/s/KG3Tb2OUjd',
+            desc: 'Four-wheel drive articulated boom lift for outdoor construction and maintenance. Articulating jib reaches over and around obstacles, rough terrain tires for uneven ground.',
+            specs: [
+              ['Working Height', '16 m'],
+              ['Horizontal Reach', '8.5 m'],
+              ['Load Capacity', '230 kg'],
+              ['Platform Rotation', '160°'],
+              ['Power', 'Diesel 4WD'],
+              ['Gradeability', '40%']
+            ]
+          },
+          {
+            slug: 'dock-ramp-10t',
+            category: 'Loading Equipment / Mobile Dock Ramp',
+            title: '10 Ton Mobile Dock Ramp',
+            image: 'https://aka.doubaocdn.com/s/hbS5B2DGaQ',
+            desc: 'Mobile loading dock ramp bridges forklift and container truck at any warehouse or yard. Hydraulic height adjustment, anti-slip surface, safety chains and support legs.',
+            specs: [
+              ['Load Capacity', '10,000 kg'],
+              ['Ramp Length', '11 m'],
+              ['Width', '2.1 m'],
+              ['Height Range', '1.1-1.7 m'],
+              ['Surface', 'Anti-slip steel grid'],
+              ['Mobility', 'Forklift towable']
+            ]
+          }
+        ];
+        const list = (products && products.length) ? products : fallbackProducts;
+      %>
+
+      <% list.forEach(function(p, idx) {
+          const isPost = !!p.layout;
+          const slug = isPost ? p.path.replace(/^.*\//, '').replace(/\.html$/, '') : p.slug;
+          const link = isPost ? p.permalink : (url_for('/products/' + slug + '/'));
+          let cat = '';
+          if (p.category) {
+            cat = p.category;
+          } else if (p.categories && p.categories.length && p.categories.first) {
+            const first = p.categories.first();
+            cat = (first && first.name) ? first.name : '';
+          }
+          const title = p.title || '';
+          const image = (p.cover && p.cover.length) ? p.cover : p.image;
+          const desc = p.excerpt || p.desc || p.description || '';
+          const specs = p.specs || p.specs_rows || [];
+      %>
+      <div class="product-row">
+        <div class="product-row-img">
+          <img src="<%= image %>" alt="<%= title %>" loading="lazy">
+        </div>
+        <div class="product-row-body">
+          <div class="product-cat"><%= cat %></div>
+          <h2><%= title %></h2>
+          <% if (specs && specs.length) { %>
+          <div class="product-specs">
+            <% specs.slice(0, 6).forEach(function(s) { %>
+            <div class="spec-item">
+              <span class="spec-label"><%= s[0] %></span>
+              <span class="spec-value"><%= s[1] %></span>
+            </div>
+            <% }); %>
+          </div>
+          <% } %>
+          <p class="product-row-desc"><%- strip_html(desc).substring(0, 200) %><%= strip_html(desc).length > 200 ? '...' : '' %></p>
+          <div class="product-actions">
+            <a class="btn-sm btn-sm-primary" href="<%= link %>">View Details</a>
+            <a class="btn-sm btn-sm-outline" href="<%= url_for('/contact/') %>">Request Quote</a>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+  </section>
+</main>

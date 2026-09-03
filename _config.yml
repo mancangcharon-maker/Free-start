@@ -3,9 +3,9 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
+title: SafeLift
+subtitle: Professional Aerial Work Platform Manufacturer
+description: Manufacturer of scissor lift, electric lifting platform
 keywords:
 author: John Doe
 language: en
@@ -96,9 +96,49 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: hexo-theme-next
+theme: safelift-modern
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/mancangcharon-maker/Free-start.git
+  branch: gh-pages
+  message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+# ========== 页面结构全局配置 ==========
+post_meta:
+  page:
+    date_type: date
+    date_format: YYYY-MM-DD HH:mm:ss
+    categories: true
+    tags: true
+  post:
+    date_type: date
+    date_format: YYYY-MM-DD HH:mm:ss
+    categories: true
+    tags: true
+
+# Front‑matter 自定义字段支持
+custom_front_matter:
+  top: true
+  comments: true
+  mathjax: false
+  copyright: true
+
+# 文章布局结构
+layout:
+  post: layout/post.ejs
+  page: layout/page.ejs
+  home: layout/index.ejs
+
+# 目录渲染配置
+toc:
+  enable: true
+  number: false
+  max_depth: 4
+
+# 代码块渲染
+code:
+  copy: true
+  highlight: true
+  lang: true
