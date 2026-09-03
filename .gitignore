@@ -5,4 +5,13 @@ db.json
 node_modules/
 public/
 .deploy*/
+route*.json
+worker_metadata.json
+form_settings.json
+upload_result*.json
+settings_result.json
+subdomain_result.json
+enable_result.json
+test_*.txt
+test_*.json
 _multiconfig.yml
