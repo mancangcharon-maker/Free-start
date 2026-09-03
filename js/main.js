@@ -90,7 +90,7 @@ function handleSubmit(e) {
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  fetch('https://safelift-form.mancangcharon.workers.dev', {
+  fetch('/api/inquiry', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
