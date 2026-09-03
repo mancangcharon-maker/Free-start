@@ -14,4 +14,4 @@ subdomain_result.json
 enable_result.json
 test_*.txt
 test_*.json
-_multiconfig.yml
+_multiconfig.yml.tmp_deploy_git/
