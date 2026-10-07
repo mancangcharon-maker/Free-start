@@ -118,7 +118,7 @@ button { cursor: pointer; border: none; background: none; }
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background: url('https://aka.doubaocdn.com/s/Knmndr8U9l') center/cover no-repeat;
+  background: #1a1d21 url('/img/hero.jpg') center/cover no-repeat;
   z-index: 0;
 }
 .hero-overlay {
